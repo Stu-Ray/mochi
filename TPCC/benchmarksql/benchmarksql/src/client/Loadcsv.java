@@ -133,8 +133,8 @@ public class Loadcsv {
 
 				dist.add(fields[11]);
 				o_id.add(fields[1]);
-				o_c_id.add(fields[5]);			// original customer id
-				o_item_id.add(fields[12]);		// original product id
+				o_c_id.add(fields[5]); 	// original customer id
+				o_item_id.add(fields[12]);	// original product id
 				amount.add(fields[17]);
 				quantity.add(fields[18]);
 				oldata.add(fields[6]+" "+fields[7]+" "+fields[8]+" "+fields[9]);
@@ -206,7 +206,7 @@ public class Loadcsv {
 		numo=1;
 		int cnt=1;
 		int j=1;
-		int[] a=new int[6]; // 不同区域的订单id
+		int[] a=new int[6]; 	// 不同区域的订单id
 		for(int i=0;i<6;i++) {
 			a[i]=1;
 		}
@@ -228,7 +228,7 @@ public class Loadcsv {
 			}
 			oorder.oo_d_id.add(o_d_id.get(i));	// 区域id
 			numo++;
-			if(o_d_id.get(i)==1) {  			// 订单id
+			if(o_d_id.get(i)==1) {  		// 订单id
 				oorder.oo_id.add(a[0]++);
 			}else if(o_d_id.get(i)==2) {
 				oorder.oo_id.add(a[1]++);
@@ -242,7 +242,7 @@ public class Loadcsv {
 				oorder.oo_id.add(a[5]++);
 			}
 			oorder.oo_c_id.add(cid_map.get(o_c_id2.get(i))); 	// 客户id
-			oorder.oo_ol_cnt.add(cnt); 							// 订单项目数量
+			oorder.oo_ol_cnt.add(cnt); 			// 订单项目数量
 			cnt=1;
 			oorder.oo_date.add(LocalDate.parse(date.get(i),formatter));
 			long daysDifference = ChronoUnit.DAYS.between(oorder.oo_date.get(j-1),oorder.oo_date.get(j))*jTPCC.runtime*60000/sumday; //差值
@@ -264,7 +264,7 @@ public class Loadcsv {
 		Collections.sort(o_i_id1);
 		numi=0;
 		iid_map.put(o_i_id1.get(0), ++numi);   	// map中的键值对是按顺序插入的，key值是商品id后8位
-		for(int i=1; i<numol; i++)				// 商品id
+		for(int i=1; i<numol; i++)		// 商品id
 		{
 			if(o_i_id1.get(i).equals(o_i_id1.get(i-1))){
 				iid_map.put(o_i_id1.get(i), numi);
@@ -319,15 +319,15 @@ public class Loadcsv {
 			dnum[o_d_id.get(i)-1] += Double.parseDouble(amount.get(i));
 		}
 		double wytd =0;
-		for(int i=0;i<numd;i++) {
+		for(int i=0;i<numd;i++) 
+		{
 			//district.d_name.add();
 			district.d_ytd.add(dnum[i]);
 			wytd = wytd + dnum[i];
 			district.d_name.add(dmap2.get(i+1));
 			district.d_next_o_id.add(a[i]);
 			district.d_city.add(dcitys.get(i));
-			district.d_state.add(dstates.get(i));
-			
+			district.d_state.add(dstates.get(i));	
 		}
 		warehouse = new warehousedata();
 		warehouse.w_ytd.add(wytd);
