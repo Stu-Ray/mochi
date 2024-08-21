@@ -1,0 +1,295 @@
+----------------- K = 1 -----------------
+2024-08-20 15:58:12.071103
+[i=0] Total Num: 4704.0
+    Accurate Type Num: 4704.0  1.0
+    Accurate Table Num: 4704.0  1.0
+    Accurate Customer Num: 1600.0  0.3401360544217687
+    Accurate Item Num: 3540.0  0.7525510204081632
+[i=1] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 4.0  0.01020408163265306
+    Accurate Item Num: 392.0  1.0
+[i=2] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 4.0  0.01020408163265306
+    Accurate Item Num: 392.0  1.0
+[i=3] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 4.0  0.01020408163265306
+    Accurate Item Num: 392.0  1.0
+[i=4] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 4.0  0.01020408163265306
+    Accurate Item Num: 392.0  1.0
+[i=5] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 4.0  0.01020408163265306
+    Accurate Item Num: 392.0  1.0
+[i=6] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 4.0  0.01020408163265306
+    Accurate Item Num: 392.0  1.0
+[i=7] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 4.0  0.01020408163265306
+    Accurate Item Num: 392.0  1.0
+[i=8] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 4.0  0.01020408163265306
+    Accurate Item Num: 392.0  1.0
+[i=9] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 4.0  0.01020408163265306
+[i=10] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 4.0  0.01020408163265306
+[i=11] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 4.0  0.01020408163265306
+[i=12] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+----------------- K = 2 -----------------
+2024-08-20 15:58:53.523784
+[i=0] Total Num: 4312.0
+    Accurate Type Num: 4312.0  1.0
+    Accurate Table Num: 4312.0  1.0
+    Accurate Customer Num: 4312.0  1.0
+    Accurate Item Num: 4124.0  0.9564007421150278
+[i=1] Total Num: 0.0
+[i=2] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=3] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=4] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=5] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=6] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=7] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=8] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=9] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 328.0  0.8367346938775511
+[i=10] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 330.0  0.8418367346938775
+[i=11] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 330.0  0.8418367346938775
+[i=12] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+----------------- K = 3 -----------------
+2024-08-20 15:59:33.427947
+[i=0] Total Num: 3920.0
+    Accurate Type Num: 3920.0  1.0
+    Accurate Table Num: 3920.0  1.0
+    Accurate Customer Num: 3920.0  1.0
+    Accurate Item Num: 3731.0  0.9517857142857142
+[i=1] Total Num: 0.0
+[i=2] Total Num: 0.0
+[i=3] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=4] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=5] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=6] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=7] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=8] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=9] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 329.0  0.8392857142857143
+[i=10] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 329.0  0.8392857142857143
+[i=11] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 329.0  0.8392857142857143
+[i=12] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+----------------- K = 4 -----------------
+2024-08-20 16:00:13.434219
+[i=0] Total Num: 3528.0
+    Accurate Type Num: 3528.0  1.0
+    Accurate Table Num: 3528.0  1.0
+    Accurate Customer Num: 3522.0  0.9982993197278912
+    Accurate Item Num: 3327.0  0.9430272108843537
+[i=1] Total Num: 0.0
+[i=2] Total Num: 0.0
+[i=3] Total Num: 0.0
+[i=4] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=5] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=6] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=7] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=8] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=9] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 323.0  0.8239795918367347
+[i=10] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 390.0  0.9948979591836735
+    Accurate Item Num: 326.0  0.8316326530612245
+[i=11] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 326.0  0.8316326530612245
+[i=12] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 388.0  0.9897959183673469
+    Accurate Item Num: 392.0  1.0
+----------------- K = 5 -----------------
+2024-08-20 16:00:52.831038
+[i=0] Total Num: 3136.0
+    Accurate Type Num: 3136.0  1.0
+    Accurate Table Num: 3136.0  1.0
+    Accurate Customer Num: 3132.0  0.9987244897959183
+    Accurate Item Num: 2932.0  0.9349489795918368
+[i=1] Total Num: 0.0
+[i=2] Total Num: 0.0
+[i=3] Total Num: 0.0
+[i=4] Total Num: 0.0
+[i=5] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=6] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=7] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 388.0  0.9897959183673469
+[i=8] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 392.0  1.0
+[i=9] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 326.0  0.8316326530612245
+[i=10] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 326.0  0.8316326530612245
+[i=11] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 388.0  0.9897959183673469
+    Accurate Item Num: 328.0  0.8367346938775511
+[i=12] Total Num: 392.0
+    Accurate Type Num: 392.0  1.0
+    Accurate Table Num: 392.0  1.0
+    Accurate Customer Num: 392.0  1.0
+    Accurate Item Num: 388.0  0.9897959183673469

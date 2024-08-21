@@ -1,0 +1,580 @@
+----------------- K = 1 -----------------
+2024-06-14 10:58:55.689008
+[i=0] Total Num: 636
+    Accurate Type Num: 265  0.4166666666666667
+    Accurate Table Num: 106  0.16666666666666666
+    Accurate Customer Num: 107  0.16823899371069181
+    Accurate Item Num: 477  0.75
+[i=1] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 1  0.018867924528301886
+    Accurate Item Num: 53  1.0
+[i=2] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=3] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=4] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=5] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=6] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=7] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=8] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=9] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 0  0.0
+[i=10] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 0  0.0
+[i=11] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=12] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 53  1.0
+----------------- K = 2 -----------------
+2024-06-14 11:01:42.515210
+[i=0] Total Num: 583
+    Accurate Type Num: 212  0.36363636363636365
+    Accurate Table Num: 318  0.5454545454545454
+    Accurate Customer Num: 261  0.44768439108061747
+    Accurate Item Num: 371  0.6363636363636364
+[i=1] Total Num: 0
+[i=2] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 49  0.9245283018867925
+    Accurate Item Num: 53  1.0
+[i=3] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=4] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=5] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=6] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=7] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=8] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=9] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=10] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=11] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=12] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+----------------- K = 3 -----------------
+2024-06-14 11:04:15.682635
+[i=0] Total Num: 530
+    Accurate Type Num: 371  0.7
+    Accurate Table Num: 371  0.7
+    Accurate Customer Num: 530  1.0
+    Accurate Item Num: 381  0.7188679245283018
+[i=1] Total Num: 0
+[i=2] Total Num: 0
+[i=3] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 53  1.0
+[i=4] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 53  1.0
+[i=5] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 53  1.0
+[i=6] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 53  1.0
+[i=7] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 53  1.0
+[i=8] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 53  1.0
+[i=9] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 10  0.18867924528301888
+[i=10] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=11] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=12] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 53  1.0
+----------------- K = 4 -----------------
+2024-06-14 11:06:32.396273
+[i=0] Total Num: 477
+    Accurate Type Num: 212  0.4444444444444444
+    Accurate Table Num: 212  0.4444444444444444
+    Accurate Customer Num: 235  0.49266247379454925
+    Accurate Item Num: 305  0.639412997903564
+[i=1] Total Num: 0
+[i=2] Total Num: 0
+[i=3] Total Num: 0
+[i=4] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 51  0.9622641509433962
+    Accurate Item Num: 53  1.0
+[i=5] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 2  0.03773584905660377
+    Accurate Item Num: 53  1.0
+[i=6] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 4  0.07547169811320754
+    Accurate Item Num: 53  1.0
+[i=7] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 4  0.07547169811320754
+    Accurate Item Num: 53  1.0
+[i=8] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 1  0.018867924528301886
+    Accurate Item Num: 53  1.0
+[i=9] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 28  0.5283018867924528
+    Accurate Item Num: 0  0.0
+[i=10] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=11] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=12] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 39  0.7358490566037735
+    Accurate Item Num: 40  0.7547169811320755
+----------------- K = 5 -----------------
+2024-06-14 11:08:35.029676
+[i=0] Total Num: 424
+    Accurate Type Num: 265  0.625
+    Accurate Table Num: 265  0.625
+    Accurate Customer Num: 371  0.875
+    Accurate Item Num: 279  0.6580188679245284
+[i=1] Total Num: 0
+[i=2] Total Num: 0
+[i=3] Total Num: 0
+[i=4] Total Num: 0
+[i=5] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 51  0.9622641509433962
+    Accurate Item Num: 53  1.0
+[i=6] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 51  0.9622641509433962
+    Accurate Item Num: 53  1.0
+[i=7] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 51  0.9622641509433962
+    Accurate Item Num: 53  1.0
+[i=8] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 51  0.9622641509433962
+    Accurate Item Num: 53  1.0
+[i=9] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 17  0.32075471698113206
+[i=10] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=11] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 2  0.03773584905660377
+[i=12] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 8  0.1509433962264151
+    Accurate Item Num: 48  0.9056603773584906
+----------------- K = 6 -----------------
+2024-06-14 11:10:22.470278
+[i=0] Total Num: 371
+    Accurate Type Num: 159  0.42857142857142855
+    Accurate Table Num: 265  0.7142857142857143
+    Accurate Customer Num: 349  0.9407008086253369
+    Accurate Item Num: 189  0.5094339622641509
+[i=1] Total Num: 0
+[i=2] Total Num: 0
+[i=3] Total Num: 0
+[i=4] Total Num: 0
+[i=5] Total Num: 0
+[i=6] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 46  0.8679245283018868
+    Accurate Item Num: 53  1.0
+[i=7] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 45  0.8490566037735849
+    Accurate Item Num: 53  1.0
+[i=8] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 46  0.8679245283018868
+    Accurate Item Num: 53  1.0
+[i=9] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=10] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=11] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=12] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 30  0.5660377358490566
+----------------- K = 7 -----------------
+2024-06-14 11:11:55.819165
+[i=0] Total Num: 318
+    Accurate Type Num: 159  0.5
+    Accurate Table Num: 106  0.3333333333333333
+    Accurate Customer Num: 224  0.7044025157232704
+    Accurate Item Num: 163  0.5125786163522013
+[i=1] Total Num: 0
+[i=2] Total Num: 0
+[i=3] Total Num: 0
+[i=4] Total Num: 0
+[i=5] Total Num: 0
+[i=6] Total Num: 0
+[i=7] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 49  0.9245283018867925
+    Accurate Item Num: 53  1.0
+[i=8] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 5  0.09433962264150944
+    Accurate Item Num: 53  1.0
+[i=9] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 1  0.018867924528301886
+[i=10] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 4  0.07547169811320754
+[i=11] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 11  0.20754716981132076
+    Accurate Item Num: 0  0.0
+[i=12] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 52  0.9811320754716981
+----------------- K = 8 -----------------
+2024-06-14 11:13:14.089990
+[i=0] Total Num: 265
+    Accurate Type Num: 106  0.4
+    Accurate Table Num: 159  0.6
+    Accurate Customer Num: 211  0.7962264150943397
+    Accurate Item Num: 96  0.3622641509433962
+[i=1] Total Num: 0
+[i=2] Total Num: 0
+[i=3] Total Num: 0
+[i=4] Total Num: 0
+[i=5] Total Num: 0
+[i=6] Total Num: 0
+[i=7] Total Num: 0
+[i=8] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 34  0.6415094339622641
+    Accurate Item Num: 51  0.9622641509433962
+[i=9] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 18  0.33962264150943394
+    Accurate Item Num: 0  0.0
+[i=10] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=11] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=12] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 45  0.8490566037735849
+----------------- K = 9 -----------------
+2024-06-14 11:14:18.159505
+[i=0] Total Num: 212
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 212  1.0
+    Accurate Item Num: 79  0.37264150943396224
+[i=1] Total Num: 0
+[i=2] Total Num: 0
+[i=3] Total Num: 0
+[i=4] Total Num: 0
+[i=5] Total Num: 0
+[i=6] Total Num: 0
+[i=7] Total Num: 0
+[i=8] Total Num: 0
+[i=9] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 29  0.5471698113207547
+[i=10] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 24  0.4528301886792453
+[i=11] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 11  0.20754716981132076
+[i=12] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 15  0.2830188679245283
+----------------- K = 10 -----------------
+2024-06-14 11:15:07.299499
+[i=0] Total Num: 159
+    Accurate Type Num: 53  0.3333333333333333
+    Accurate Table Num: 53  0.3333333333333333
+    Accurate Customer Num: 159  1.0
+    Accurate Item Num: 69  0.4339622641509434
+[i=1] Total Num: 0
+[i=2] Total Num: 0
+[i=3] Total Num: 0
+[i=4] Total Num: 0
+[i=5] Total Num: 0
+[i=6] Total Num: 0
+[i=7] Total Num: 0
+[i=8] Total Num: 0
+[i=9] Total Num: 0
+[i=10] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 33  0.6226415094339622
+[i=11] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 36  0.6792452830188679
+[i=12] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+----------------- K = 11 -----------------
+2024-06-14 11:15:41.668678
+[i=0] Total Num: 106
+    Accurate Type Num: 53  0.5
+    Accurate Table Num: 53  0.5
+    Accurate Customer Num: 106  1.0
+    Accurate Item Num: 70  0.660377358490566
+[i=1] Total Num: 0
+[i=2] Total Num: 0
+[i=3] Total Num: 0
+[i=4] Total Num: 0
+[i=5] Total Num: 0
+[i=6] Total Num: 0
+[i=7] Total Num: 0
+[i=8] Total Num: 0
+[i=9] Total Num: 0
+[i=10] Total Num: 0
+[i=11] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 52  0.9811320754716981
+[i=12] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 18  0.33962264150943394
+----------------- K = 2 -----------------
+2024-06-15 02:47:15.704910
+[i=0] Total Num: 583
+    Accurate Type Num: 265  0.45454545454545453
+    Accurate Table Num: 212  0.36363636363636365
+    Accurate Customer Num: 215  0.3687821612349914
+    Accurate Item Num: 371  0.6363636363636364
+[i=1] Total Num: 0
+[i=2] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 53  1.0
+[i=3] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=4] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=5] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=6] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 1  0.018867924528301886
+    Accurate Item Num: 53  1.0
+[i=7] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 0  0.0
+    Accurate Item Num: 53  1.0
+[i=8] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 1  0.018867924528301886
+    Accurate Item Num: 53  1.0
+[i=9] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
+[i=10] Total Num: 53
+    Accurate Type Num: 0  0.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 25  0.4716981132075472
+    Accurate Item Num: 0  0.0
+[i=11] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 0  0.0
+    Accurate Customer Num: 29  0.5471698113207547
+    Accurate Item Num: 0  0.0
+[i=12] Total Num: 53
+    Accurate Type Num: 53  1.0
+    Accurate Table Num: 53  1.0
+    Accurate Customer Num: 53  1.0
+    Accurate Item Num: 0  0.0
