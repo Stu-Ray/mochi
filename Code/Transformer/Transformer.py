@@ -12,41 +12,39 @@ from keras.layers import Embedding, MultiHeadAttention, Dense, LayerNormalizatio
 from keras.models import Model
 from collections import defaultdict
 
-# tf.config.set_visible_devices([tf.config.get_visible_devices('CPU')[0]])
+# train Transformer model and evaluate accuracy for different k values
+
+# pre-configuration of Tensorflow
+num_threads = 20
+tf.config.threading.set_intra_op_parallelism_threads(num_threads)
+tf.config.threading.set_inter_op_parallelism_threads(num_threads)
+tf.config.optimizer.set_jit(True)
 
 gpus = tf.config.list_physical_devices('GPU')
 for gpu in gpus:
     tf.config.experimental.set_memory_growth(gpu, True)
 tf.config.set_visible_devices(gpus[0], 'GPU')
 
-# 配置 TensorFlow 的线程池
-num_threads = 20
-tf.config.threading.set_intra_op_parallelism_threads(num_threads)
-tf.config.threading.set_inter_op_parallelism_threads(num_threads)
 
-tf.config.optimizer.set_jit(True)
-
-# 模型参数设置
+# parameters of the Transformer model
 v_size  =   5
 w_size  =   20
-
 in_dim      = 12
 maxlen      = 13
 embed_dim   = 16
 num_heads   = 4
 ff_dim      = 16
 num_transformer_blocks = 4
-
-b_size      = 64
+b_size      = 32
 epoch_num   = 5000
+model_path  =   "../Model/"     # where to store the models
 
-# 其他参数
-logid       =   80
-print_log   =   False
-model_path  =   "../Model/"
+# other parameters
+logid       =   80      # which log data to use (20,40,60,80)
 log_file    =   "../Dataset/DATA-LOG-" + str(logid) + ".csv"
+print_log   =   False   # whether to print some information during execution
 
-# 获取Transformer训练和测试所需的数据集
+# get the dataset needed for Transformer
 def getTransformeratasets(logFile, modelPath="./Model/", k_value = 2):
     global v_size
     # 初始数据集
@@ -97,7 +95,7 @@ def getTransformeratasets(logFile, modelPath="./Model/", k_value = 2):
             transactions[row["VXID"]].append(temp_row)
     return transactions, transaction_cache
 
-# 定义Transformer块
+# define Transformer Block
 @tf.keras.utils.register_keras_serializable("TransformerBlock")
 class TransformerBlock(tf.keras.layers.Layer):
     def __init__(self, embed_dim, num_heads, ff_dim, rate=0.001, **kwargs):
@@ -135,7 +133,7 @@ class TransformerBlock(tf.keras.layers.Layer):
         })
         return config
 
-# 定义Token和位置嵌入层
+# define Token and Position Embedding layer
 @tf.keras.utils.register_keras_serializable("TokenAndPositionEmbedding")
 class TokenAndPositionEmbedding(tf.keras.layers.Layer):
     def __init__(self, maxlen, embed_dim, **kwargs):
@@ -160,7 +158,7 @@ class TokenAndPositionEmbedding(tf.keras.layers.Layer):
         })
         return config
 
-# 创建模型
+# create the model
 def create_model(in_dim, maxlen, embed_dim, num_heads, ff_dim, K, num_transformer_blocks):
     inputs = tf.keras.Input(shape=(K, in_dim))
     embedding_layer = TokenAndPositionEmbedding(maxlen, embed_dim)
@@ -179,20 +177,17 @@ def create_model(in_dim, maxlen, embed_dim, num_heads, ff_dim, K, num_transforme
 predict_times = []
 
 if __name__ == '__main__':
-    # WV模型
+    # Word2Vec Model
     model1, model2 = word2Vec.loadTwoModels(model_path)
     default_vector = np.zeros(v_size)
     model1.wv['0'] = default_vector
     model2.wv['0'] = default_vector
 
-    # 划分训练测试集
+    # test different k values
     for k_value in range(1,6):
         transactions, transaction_cache = getTransformeratasets(log_file, model_path, k_value)
-        if print_log:
-            print("------------------- K = " + str(k_value) + " -------------------")
         X_data = []
         y_data = []
-
         # for vxid in transactions:
         txn_size    =   0
         for vxid in transactions:
@@ -207,30 +202,29 @@ if __name__ == '__main__':
                 X_data.append(temp_X)
                 y_data.append(temp_y)
 
-        split_index = int(len(X_data) * 0.8)
+        split_index = int(len(X_data) * 0.8)    # 80% of the data is the training set
 
         X_train_data = np.array(X_data[:split_index])
         y_train_data = np.array(y_data[:split_index])
 
-        # 模型保存位置
+        # model location
         model_name = "../Model/Transformer/TRANSFORMER_TEST_" + str(logid) + "_"  + str(k_value) + "_" + str(epoch_num) + ".keras"
 
-        # 创建、编译、训练、保存模型
+        # create, compile, train and test the model
         training_log_file_path = "../Dataset/Transformer.txt"
+        with open(training_log_file_path, 'w+') as f:   #  historical training loss and accuracy are stored here as a txt file
+            original_stdout = sys.stdout
+            sys.stdout = f
+            model = create_model(in_dim, maxlen, embed_dim, num_heads, ff_dim, k_value, num_transformer_blocks)
+            model.compile(optimizer="adam", loss="mse", metrics=["accuracy"])
+            model.fit(X_train_data, y_train_data, batch_size=b_size, epochs=epoch_num)
+            tf.keras.models.save_model(model, model_name)
+            sys.stdout = original_stdout
 
-        # with open(training_log_file_path, 'w+') as f:
-        #     original_stdout = sys.stdout
-        #     sys.stdout = f  # 将标准输出重定向到文件
-        #     model = create_model(in_dim, maxlen, embed_dim, num_heads, ff_dim, k_value, num_transformer_blocks)
-        #     model.compile(optimizer="adam", loss="mse", metrics=["accuracy"])
-        #     model.fit(X_train_data, y_train_data, batch_size=b_size, epochs=epoch_num)
-        #     tf.keras.models.save_model(model, model_name)
-        #     sys.stdout = original_stdout    # 恢复标准输出
+        # load the saved model
+        # model = tf.keras.models.load_model(model_name)
 
-        # 加载模型
-        model = tf.keras.models.load_model(model_name)
-
-        # 预测
+        # make predictions
         total_num = list(np.zeros(txn_size))
         customer_accurate_num = list(np.zeros(txn_size))
         item_accurate_num = list(np.zeros(txn_size))
@@ -241,7 +235,7 @@ if __name__ == '__main__':
 
         for m in range(0, len(X_data)):
             start_time = time.time()
-            pred = model.predict(np.array(X_data[m:m+1]))  # 对测试数据进行预测
+            pred = model.predict(np.array(X_data[m:m+1]))  # predict the working set
             end_time = time.time()
             predict_time_seconds = (end_time-start_time)
             predict_times.append(predict_time_seconds)
@@ -278,7 +272,7 @@ if __name__ == '__main__':
                 # transaction_cache[cache_keys[m]]["y"][i][4]  =    predict_customer
                 # transaction_cache[cache_keys[m]]["y"][i][5]  =    predict_item
 
-                # 准确数计算
+                # calculate the prediction accuracy (different from the training accuracy or testing accuracy)
                 total_num[0] += 1
                 total_num[i + k_value] += 1
                 if real_type == predict_type:
@@ -300,8 +294,7 @@ if __name__ == '__main__':
                         np.linalg.norm(customer_v)) + "\t  " + str(np.linalg.norm(item_v)) + " \t---\t " + str(
                         str(i) + ": " + str((real_type, real_table, real_customer, real_item))))
 
-
-        # 预测效果记录
+        # record the result in a txt file
         with open("../Output/Text/" + str(logid) + "/transformer_test_output.txt", 'a+',encoding='utf-8') as file:
             file.write("----------------- K = " + str(k_value) + " -----------------\n")
             file.write(str(datetime.now()) + "\n")
@@ -317,6 +310,7 @@ if __name__ == '__main__':
                     file.write("    Accurate Item Num: " + str(item_accurate_num[i]) + "  " + str(
                         item_accurate_num[i] / total_num[i]) + "\n")
 
+        # record the prediction time in a csv file
         df = pd.DataFrame(predict_times)
         df.to_csv("../Output/predict/Transformer_preTime.csv", index=False, header=None)
 
@@ -331,7 +325,7 @@ if __name__ == '__main__':
         # X_cache =  []
         # y_cache =  []
         #
-        # count_cache = defaultdict(int)  # 计数字典，记录每个 input-output 组合出现的次数
+        # count_cache = defaultdict(int)
         #
         # for key in transaction_cache:
         #     X_cache.append(transaction_cache[key]["X"])
@@ -340,21 +334,16 @@ if __name__ == '__main__':
         # if not os.path.exists(output_filename):
         #     with open(output_filename, 'w+', newline='') as csvfile:
         #         writer = csv.writer(csvfile)
-        #         writer.writerow(['input', 'output'])  # 写入表头
-        #         # 遍历每组数据
+        #         writer.writerow(['input', 'output'])
         #         for X_group, y_group in zip(X_cache, y_cache):
-        #             # 将输入数据和输出数据转换为字符串，写入CSV文件
         #             input_str = ' '.join(map(str, X_group))
         #             output_str = ' '.join(map(str, y_group))
         #             writer.writerow([input_str, output_str])
         # else:
         #     with open(output_filename, 'a+', newline='') as csvfile:
         #         writer = csv.writer(csvfile)
-        #         # 遍历每组数据
         #         for X_group, y_group in zip(X_cache, y_cache):
-        #             # 将输入数据和输出数据转换为字符串，写入CSV文件
         #             input_str = ' '.join(map(str, X_group))
         #             output_str = ' '.join(map(str, y_group))
         #             writer.writerow([input_str, output_str])
-        # print(f"CSV 文件 '{output_filename}' 已写入")
 

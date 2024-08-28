@@ -1,9 +1,10 @@
 import re
 import os
 import csv
-import tensorflow as tf
 import numpy as np
 import pandas as pd
+
+# pre-process dataset and generate usable training and testing data for models
 
 # 显示配置，便于在命令台显示完整结果
 pd.set_option('display.max_columns', 10000)
@@ -16,53 +17,44 @@ bool_print = False           # 是否在终端print输出具体的事务工作�
 # 参数
 logid = 80
 
-# 数据项的编号及记录
+# data item related IDs and records
 data_total = 1      # 出现过的数据项数量总和
 data_dict = {}      # 数据项及其对应编号
-
 table_total = 1     # 出现过的数据表数量总和
 table_id = {}       # 数据表及其对应编号
 
+# write some training or testing data into a csv file
 def write_data_to_csv(X_data, y_data, filename='./Output/Text/Data_output.csv'):
     if not os.path.exists(filename):
         with open(filename, 'w+', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerow(['input', 'output']) # 写入表头
-            # 遍历每组数据
+            writer.writerow(['input', 'output'])
             for X_group, y_group in zip(X_data, y_data):
-                # 将输入数据和输出数据转换为字符串
                 input_str = ' '.join(map(str, X_group))
                 output_str = ' '.join(map(str, y_group))
-                # 写入CSV文件
                 writer.writerow([input_str, output_str])
     else:
         with open(filename, 'a+', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            # 遍历每组数据
             for X_group, y_group in zip(X_data, y_data):
-                # 将输入数据和输出数据转换为字符串
                 input_str = ' '.join(map(str, X_group))
                 output_str = ' '.join(map(str, y_group))
-
-                # 写入CSV文件
                 writer.writerow([input_str, output_str])
 
-    print(f"CSV 文件 '{filename}' 已写入")
-
+# the most important function
 def read_csv_all_data(logFile):
     global data_total
-    # 读取原始数据，手动重命名各列的属性名
+    # get all columns
     colNames = ['TIME', 'UNAME', 'DBNAME', 'PID', 'HOSTPORT', 'SID', 'SLNUM', 'TAG', 'TIME2', 'VXID', 'XID', 'LTYPE', 'STATE', 'LOG', 'DETAIL', 'P', 'Q', 'R',
                 'S', 'T', 'U', 'V', 'AMAME', 'BACKEND']
-    # colNames = ['TIME', 'VXID', 'XID', 'LOG', 'DETAIL', 'A', 'B', 'C']
     dataset = pd.read_csv(logFile, header=None, names=colNames, dtype='str', encoding="ANSI")
 
-    # 去除虚拟事务ID和LOG内容为空的无用日志记录，以及去掉其他不必要的列
+    # remove invalid rows and columns
     dataset.drop(dataset[dataset['VXID'] == ''].index, inplace=True)
     dataset.dropna(subset="VXID" ,axis=0, inplace=True)
     dataset.drop(['UNAME', 'DBNAME', 'PID', 'HOSTPORT', 'SID', 'SLNUM', 'TIME2', 'XID', 'STATE', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',  'AMAME', 'BACKEND'], axis=1, inplace=True)
 
-    # 待添加的新列数据初始化
+    # new column to be added
     sql_Type = []           # 操作类型
     sql_statement = []      # WHERE子句（即查询条件，若全局查询则默认为“ALL”）
     sql_data = []           # 访问的数据项编号
@@ -81,17 +73,12 @@ def read_csv_all_data(logFile):
     table_total_num = 0
     table_id_dict ={}
 
-    # 按时间顺序排列
-    # dataset.sort_values(by="TIME", ascending=True, inplace=True)
-
     aborted_txns = []
-
     for index, row in dataset.iterrows():
         if row["LTYPE"] == "ERROR" or row["TAG"] == "ROLLBACK":
             aborted_txns.append(row["VXID"])
-            # print("Aborting transaction " + str(row["VXID"]))
 
-    # 获取新列数据
+    # get new column data
     for index, row in dataset.iterrows():
         query_type = ""         # 操作类型
         table = ""              # 操作表
@@ -108,13 +95,12 @@ def read_csv_all_data(logFile):
         i_id = 0
         other = ""
 
-        # 删除虚拟事务ID为0的行记录
+        # remove invalid rows
         if str(row["VXID"]) == ""  or (str(row["VXID"]).startswith("0")) or (str(row["VXID"]).endswith("/0")):
             dataset.drop(index, axis=0, inplace=True)
-            # print("删除虚拟事务ID " + str(row["VXID"]))
             continue
 
-        # 报错信息直接记录为回滚
+        # errors regarded as rollbacks(aborts)
         if row["VXID"] in aborted_txns:
             # dataset.drop(index, axis=0, inplace=True)
             # 添加获取到的信息到新表中
@@ -325,54 +311,50 @@ def getWorkingsets(dataset):
             temp_data = []
     return transactions
 
-def get_sentences(logFile, onlySQL=False):
-    # 读取原始数据，手动重命名各列的属性名
+def get_sentences(logFile, onlySQL=False): # onlySQL option removes statements such as BEGIN, COMMIT and so on
+    # get columns in the logFile
     colNames = ['TIME', 'UNAME', 'DBNAME', 'PID', 'HOSTPORT', 'SID', 'SLNUM', 'TAG', 'TIME2', 'VXID', 'XID', 'LTYPE',
                 'STATE', 'LOG', 'DETAIL', 'P', 'Q', 'R',
                 'S', 'T', 'U', 'V', 'AMAME', 'BACKEND']
-    # colNames = ['TIME', 'VXID', 'XID', 'LOG', 'DETAIL', 'A', 'B', 'C']
     dataset = pd.read_csv(logFile, header=None, names=colNames, dtype='str', encoding="ANSI")
-    # 去除虚拟事务ID和LOG内容为空的无用日志记录，以及去掉其他不必要的列
+
+    # remove invalid rows and columns
     dataset.drop(dataset[dataset['VXID'] == ''].index, inplace=True)
     dataset.dropna(subset="VXID", axis=0, inplace=True)
     dataset.drop(
         ['UNAME', 'DBNAME', 'PID', 'HOSTPORT', 'SID', 'SLNUM', 'TAG', 'TIME2', 'XID', 'STATE', 'P', 'Q', 'R', 'S', 'T',
          'U', 'V', 'AMAME', 'BACKEND'], axis=1, inplace=True)
 
-    # 待添加的新列数据初始化
+    # new column data to be added
     sql_statement = []
     sql_types = []
 
-    # 获取新列数据
+    # get new column data
     for index, row in dataset.iterrows():
-        query_type = ""  # 操作类型
-        data_index = -1  # 访问的数据项编号
-        statement = ""  # SQL语句内容
+        query_type  = ""
+        statement   = ""    # SQL statement
+        data_index  = -1    # the ID for data to be accessed
 
-        # 删除虚拟事务ID为0的行记录
+        # delete invalid rows
         if str(row["VXID"]) == "" or (str(row["VXID"]).startswith("0")) or (str(row["VXID"]).endswith("/0")):
             dataset.drop(index, axis=0, inplace=True)
-            # print("删除虚拟事务ID " + str(row["VXID"]))
             continue
 
-        # 报错信息直接记录为回滚
+        # errors regarded as rollbacks(aborts)
         if row["LTYPE"] == "ERROR":
             query_type = "ROLLBACK"
-            # 添加获取到的信息到新表中
             sql_statement.append(statement)
             continue
 
-        # 获取日志信息中的SQL语句（如果没有日志信息则直接删掉这一行）
+        # get SQL statements
         if str(row["LOG"]).find(":") != -1:
             statement = str(row["LOG"])[(str(row["LOG"]).index(":") + 2):].strip('/"').rstrip(';').rstrip()
         else:
             dataset.drop(index, axis=0, inplace=True)
             continue
 
-        # 获取其他属性：操作类型、操作表、Where子句
+        # get other data
         statement = re.sub(r'\s+', ' ', statement)
-        # print(statement)
-
         # SELECT 语句分析
         if statement.upper().startswith("SELECT"):
             query_type = "SELECT"
@@ -429,11 +411,11 @@ def get_sentences(logFile, onlySQL=False):
         sql_types.append(query_type)
         sql_statement.append(statement)
 
-    # 添加新列，删除LOG等列以及部分行数据
+    # new rows added
     dataset["TYPE"] = sql_types
     dataset["SENTENCE"] = sql_statement
-
     # dataset.sort_values(by=["TIME", "TYPE"], ascending=[True, False], inplace=True)
+
     if(onlySQL):
         dataset.drop(dataset[dataset['TYPE'] == 'BEGIN'].index, inplace=True)
         dataset.drop(dataset[dataset['TYPE'] == 'COMMIT'].index, inplace=True)
@@ -525,14 +507,11 @@ if __name__ == '__main__':
                     data_occupy[row["IID"]] = row["VXID"]
                     # print("Transaction " + str(row["VXID"]) + " occupies Data " + str(row["IID"]) + ".")
 
-        # 将TIME列转换为datetime格式
         dataset['TIME'] = pd.to_datetime(dataset['TIME'])
 
-        # 找出最大和最小时间
+        # calculate time
         max_time = dataset['TIME'].max()
         min_time = dataset['TIME'].min()
-
-        # 计算时间差
         execution_time = max_time - min_time
 
         error_num   += max((len(all_txn)-len(total_txn)), 0)
