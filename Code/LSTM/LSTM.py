@@ -11,45 +11,36 @@ from datetime import datetime
 from sklearn.decomposition import PCA
 from collections import defaultdict
 
-# 配置 TensorFlow 的线程池
+
+# TensorFlow Configurations
 num_threads = 20
 tf.config.threading.set_intra_op_parallelism_threads(num_threads)
 tf.config.threading.set_inter_op_parallelism_threads(num_threads)
-
-# tf.config.set_visible_devices([tf.config.get_visible_devices('CPU')[0]])
-
 gpus = tf.config.experimental.list_physical_devices('GPU')
 for gpu in gpus:
     tf.config.experimental.set_memory_growth(gpu, True)
-    # 设置TensorFlow使用指定数量的GPU
-tf.config.experimental.set_visible_devices(gpus[0], 'GPU') # 使用第一个GPU
+tf.config.experimental.set_visible_devices(gpus[0], 'GPU')
 
-
-# WV模型相关参数
+# Word2Vev model parameters
 v_size          =       5
 w_size          =       10
 
-# 训练数据文件
+# original dataset
 logid = 80
 logFile = "../Dataset/DATA-LOG-" + str(logid) + ".csv"
-# logFile         =       "../Dataset/LOG_TPCC4.csv"
 
-# 是否输出Log
+# Whether to print logs
 print_log       =       True
 
-# 获取LSTM训练和测试所需的数据集
+# get datasets needed for LSTM
 def getLSTMDatasets(logFile, k_num = 2):
     global v_size
-    # 初始数据集
     dataset = dp.read_csv_all_data(logFile)
-    # 初始化PCA
     pca = PCA(n_components=1)
     pca_type = PCA(n_components=1)
-    # WV模型
     model1, model2 = word2Vec.loadTwoModels("../Model/")
-    # 训练和测试的数据集
     X_data, y_customer_data, y_item_data, X_type_data, y_type_data = [], [], [], [], []
-    # 数据集事务
+
     transactions = {}
     for index, row in dataset.iterrows():
         if row["VXID"] not in transactions:
@@ -116,12 +107,12 @@ def get_txn_cache(logFile, k_num = 2):
                 transaction_cache[row["VXID"]]["y"].append(tempy)
     return transaction_cache
 
-# 建立LSTM模型
+# build LSTM model
 def build_lstm_model(input_dim, output_dim, hidden_units):
     model = tf.keras.Sequential([
         tf.keras.layers.Input(shape=(input_dim,)),
         tf.keras.layers.Reshape((input_dim, 1)),
-        # tf.keras.layers.LSTM(hidden_units, activation='tanh', return_sequences=True),
+        tf.keras.layers.LSTM(hidden_units, activation='tanh', return_sequences=True),
         tf.keras.layers.LSTM(hidden_units, activation='tanh'),
         tf.keras.layers.Dense(output_dim)
     ])
@@ -132,13 +123,12 @@ def build_lstm_model(input_dim, output_dim, hidden_units):
 
 predict_times = []
 
-# 在指定的K值下训练和测试LSTM模型
+# train and test LSTM under a certain k value
 def train_with_K(logFile, k_value, input_dim, output_dim, hidden_units, hidden_units2, b_size, epoch_num1, epoch_num2):
     model_name1 = "../Model/LSTM/LSTM_TEST_CUST_" + str(logid) + "_" + str(k_value) + "_" + str(epoch_num1) + ".keras"
     model_name2 = "../Model/LSTM/LSTM_TEST_ITEM_" + str(logid) + "_" + str(k_value) + "_" + str(epoch_num1) + ".keras"
     model_name3 = "../Model/LSTM/LSTM_TEST_TYPE_" + str(logid) + "_" + str(k_value) + "_" + str(epoch_num2) + ".keras"
 
-    # 获取LSTM数据集
     transaction_dict, X_data, y_customer_data, y_item_data, X_type_data, y_type_data = getLSTMDatasets(logFile, k_value)
     if print_log:
         print(X_data.shape)
@@ -147,7 +137,6 @@ def train_with_K(logFile, k_value, input_dim, output_dim, hidden_units, hidden_u
         print(X_type_data.shape)
         print(y_type_data.shape)
 
-    # 划分LSTM数据集
     split_index = int(len(X_data) * 0.8)
     X_train = X_data[:split_index]
     y_item_train = y_item_data[:split_index]
@@ -160,54 +149,38 @@ def train_with_K(logFile, k_value, input_dim, output_dim, hidden_units, hidden_u
     X_type_test = X_type_data[split_index:]
     y_type_test = y_type_data[split_index:]
 
-    # 加载WV模型
     model1, model2 = word2Vec.loadTwoModels("../Model/")
     default_vector = np.ones(v_size)
     model1.wv['0'] = default_vector
     model2.wv['0'] = default_vector
 
-    # 训练并保存LSTM模型
-    # training_log_file_path = '../Dataset/LSTM.txt'
-    # with open(training_log_file_path, 'w+') as f:
-    #     original_stdout = sys.stdout
-    #     sys.stdout = f    # 将标准输出重定向到文件
-    # customer
-    model_customer = build_lstm_model(input_dim, output_dim, hidden_units)
-    history_customer = model_customer.fit(X_train, y_customer_train, epochs=epoch_num1, batch_size=b_size)
-    # item
-    model_item = build_lstm_model(input_dim, output_dim, hidden_units)
-    history_item = model_item.fit(X_train, y_item_train, epochs=epoch_num1, batch_size=b_size)
-    # type
-    model_type = build_lstm_model(2, 2, hidden_units2)
-    history_type = model_type.fit(X_type_train, y_type_train, epochs=epoch_num2, batch_size=b_size)
-    #     sys.stdout = original_stdout  # 恢复标准输出
-    # # customer
-    model_customer.evaluate(X_test, y_customer_test)
-    # tf.keras.models.save_model(model_customer, model_name1)
-    # # item
-    model_item.evaluate(X_test, y_item_test)
-    # tf.keras.models.save_model(model_item, model_name2)
-    # # type
-    model_type.evaluate(X_type_test, y_type_test)
-    # tf.keras.models.save_model(model_type, model_name3)
+    # train LSTM models and save training information in a txt file
+    training_log_file_path = '../Dataset/LSTM.txt'
+    with open(training_log_file_path, 'w+') as f:
+        original_stdout = sys.stdout
+        sys.stdout = f
+        model_customer = build_lstm_model(input_dim, output_dim, hidden_units)
+        model_item = build_lstm_model(input_dim, output_dim, hidden_units)
+        model_type = build_lstm_model(2, 2, hidden_units2)
+        sys.stdout = original_stdout
 
-    # 从文件加载LSTM模型
+    # customer
+    model_customer.evaluate(X_test, y_customer_test)
+    tf.keras.models.save_model(model_customer, model_name1)
+    # item
+    model_item.evaluate(X_test, y_item_test)
+    tf.keras.models.save_model(model_item, model_name2)
+    # type
+    model_type.evaluate(X_type_test, y_type_test)
+    tf.keras.models.save_model(model_type, model_name3)
+
+    # load models from file
     # model_customer = tf.keras.models.load_model(model_name1)
     # model_item = tf.keras.models.load_model(model_name2)
     # model_type = tf.keras.models.load_model(model_name3)
 
-    # 输出训练历史
-    # customer_history_df = pd.DataFrame(history_customer.history)
-    # customer_history_df.to_csv('../Output/logs/customer_training_log.csv', index=False)
-    #
-    # item_history_df = pd.DataFrame(history_item.history)
-    # item_history_df.to_csv('../Output/logs/item_training_log.csv', index=False)
-    #
-    # type_history_df = pd.DataFrame(history_type.history)
-    # type_history_df.to_csv('../Output/logs/type_training_log.csv', index=False)
-
-    # 进行预测测试
-    txn_size =  0   # 初始化计数量
+    # testing
+    txn_size =  0
     for vxid in transaction_dict:
         txn_size    =   max(txn_size, len(transaction_dict[vxid]))
 
@@ -217,22 +190,22 @@ def train_with_K(logFile, k_value, input_dim, output_dim, hidden_units, hidden_u
     type_accurate_num = list(np.zeros(txn_size))
     table_accurate_num = list(np.zeros(txn_size))
 
-    # 取后20%的事务测试
+    # 20% for testing
     txn_num = len(transaction_dict)
-    txn_split_index = int(txn_num * 0)
+    txn_split_index = int(txn_num * 0.8)
     txn_vxids = list(transaction_dict.keys())
     transactions = {key: transaction_dict[key] for key in txn_vxids[txn_split_index:]}
 
     transaction_cache = get_txn_cache(logFile, k_value)
 
-    # 开始进行预测的测试
+    # start testing
     for vxid in transactions:
         pca         =   PCA(n_components=1)
         pca_type    =   PCA(n_components=1)
         current_dataset         =   []
         current_dataset_type    =   []
         i = 0
-        # 先加载前K个事务操作作为初始的输入数据
+        # the first k data items are the input data
         while i < k_value:
             current_dataset.append(transactions[vxid][i])
             current_dataset_type.append(transactions[vxid][i][0:2])
@@ -241,7 +214,7 @@ def train_with_K(logFile, k_value, input_dim, output_dim, hidden_units, hidden_u
         latest_type = current_dataset_type[len(current_dataset_type)-1][0]
         latest_table = current_dataset_type[len(current_dataset_type)-1][1]
 
-        # 循环预测，每次预测结果加入下一轮的输入数据，直到预测到Commit或达到最大轮数
+        # loop for prediction until the loop count reaches the limit
         while (i + loop) < len(transactions[vxid]): # latest_type != 0 and latest_table != 0
             input = np.array(current_dataset).T
             input_type = np.array(current_dataset_type).T
@@ -290,7 +263,7 @@ def train_with_K(logFile, k_value, input_dim, output_dim, hidden_units, hidden_u
             transaction_cache[vxid]["y"][loop][4]   =   predicted_customer
             transaction_cache[vxid]["y"][loop][5]   =   predicted_item
 
-            # 对于值为0的客户或商品ID，设置全一向量作为默认值
+            # for id = 0 (no data), make it a zero vector
             if predicted_customer == '0':
                 closest_customer_vector = np.zeros(v_size).tolist()
             else:
@@ -300,7 +273,6 @@ def train_with_K(logFile, k_value, input_dim, output_dim, hidden_units, hidden_u
             else:
                 closest_item_vector = model2.wv.get_vector(predicted_item)
 
-            # 获取下一轮预测需要添加的输入值（即本轮的完整预测结果）
             new_input = []
             new_input.append(latest_type)
             new_input.append(latest_table)
@@ -310,7 +282,7 @@ def train_with_K(logFile, k_value, input_dim, output_dim, hidden_units, hidden_u
             current_dataset_type.append(predict_type)
             loop += 1
 
-            # 准确数计算
+            # calculate accuracy
             total_num[0] += 1
             print(loop - 1)
             print(i + loop - 1)
@@ -319,32 +291,31 @@ def train_with_K(logFile, k_value, input_dim, output_dim, hidden_units, hidden_u
                 type_accurate_num[0] += 1
                 type_accurate_num[i + loop - 1] += 1
                 if print_log:
-                    print("predicted type: " + str(latest_type) + " (正确)")
+                    print("predicted type: " + str(latest_type) + " (Correct)")
             elif print_log:
-                print("predicted type: " + str(latest_type) + " (错误，应为" + str(real_type) + ")")
+                print("predicted type: " + str(latest_type) + " (Wrong，should be " + str(real_type) + ")")
             if real_table == latest_table:
                 table_accurate_num[0] += 1
                 table_accurate_num[i + loop - 1] += 1
                 if print_log:
-                    print("predicted table: " + str(latest_table) + " (正确)")
+                    print("predicted table: " + str(latest_table) + " (Correct)")
             elif print_log:
-                print("predicted table: " + str(latest_table) + " (错误，应为" + str(real_table) + ")")
+                print("predicted table: " + str(latest_table) + " (Wrong，should be " + str(real_table) + ")")
             if real_customer == predicted_customer:
                 customer_accurate_num[0] += 1
                 customer_accurate_num[i + loop - 1] += 1
                 if print_log:
-                    print("predicted customer: " + str(predicted_customer) + " (正确)")
+                    print("predicted customer: " + str(predicted_customer) + " (Correct)")
             elif print_log:
-                print("predicted customer: " + str(predicted_customer) + " (错误，应为" + str(real_customer) + ")")
+                print("predicted customer: " + str(predicted_customer) + " (Wrong，should be " + str(real_customer) + ")")
             if real_item == predicted_item:
                 item_accurate_num[0] += 1
                 item_accurate_num[i + loop - 1] += 1
                 if print_log:
-                    print("predicted item: " + str(predicted_item) + " (正确)")
+                    print("predicted item: " + str(predicted_item) + " (Correct)")
             elif print_log:
-                print("predicted item: " + str(predicted_item) + " (错误，应为" + str(real_item) + ")")
+                print("predicted item: " + str(predicted_item) + " (Wrong，should be " + str(real_item) + ")")
 
-            # 预测效果记录
         with open("../Output/Text/" + str(logid) + "/lstm_test_output.txt", 'a+', encoding='utf-8') as file:
             file.write("----------------- K = " + str(k_value) + " -----------------\n")
             file.write(str(datetime.now()) + "\n")
@@ -360,8 +331,9 @@ def train_with_K(logFile, k_value, input_dim, output_dim, hidden_units, hidden_u
                     file.write("    Accurate Item Num: " + str(int(item_accurate_num[i])) + "  " + str(
                         item_accurate_num[i] / total_num[i]) + "\n")
 
-    # df = pd.DataFrame(predict_times)
-    # df.to_csv("../Output/predict/LSTM_preTime.csv", index=False, header=None)
+    # save the prediction time in a csv file
+    df = pd.DataFrame(predict_times)
+    df.to_csv("../Output/predict/LSTM_preTime.csv", index=False, header=None)
 
     for key in transaction_cache:
         for j in range(0, len(transaction_cache[key]["X"])):
@@ -371,59 +343,46 @@ def train_with_K(logFile, k_value, input_dim, output_dim, hidden_units, hidden_u
             transaction_cache[key]["y"][i] = [int(item) for item in transaction_cache[key]["y"][i]]
             transaction_cache[key]["y"][i] = tuple(transaction_cache[key]["y"][i])
 
-    X_cache = []
-    y_cache = []
-    count_cache = defaultdict(int)  # 计数字典，记录每个 input-output 组合出现的次数
-    # 提取 transaction_cache 中的数据
-    for key in transaction_cache:
-        X_cache.append(transaction_cache[key]["X"])
-        y_cache.append(transaction_cache[key]["y"])
+    # X_cache = []
+    # y_cache = []
+    # count_cache = defaultdict(int)
+    #
+    # for key in transaction_cache:
+    #     X_cache.append(transaction_cache[key]["X"])
+    #     y_cache.append(transaction_cache[key]["y"])
+    #
+    # for X_group, y_group in zip(X_cache, y_cache):
+    #     input_str = ' '.join(map(str, X_group))
+    #     output_str = ' '.join(map(str, y_group))
+    #     combination = (input_str, output_str)
+    #     count_cache[combination] += 1
 
-    # 统计每个 input-output 组合出现的次数
-    for X_group, y_group in zip(X_cache, y_cache):
-        input_str = ' '.join(map(str, X_group))
-        output_str = ' '.join(map(str, y_group))
-        combination = (input_str, output_str)
-        count_cache[combination] += 1
-
-    output_filename = "../Output/Text/LSTM_Data_" + str(logid) + "_cache.csv"
-
-    # 写入 CSV 文件
+    # output_filename = "../Output/Text/LSTM_Data_" + str(logid) + "_cache.csv"
     # if not os.path.exists(output_filename):
     #     with open(output_filename, 'w+', newline='') as csvfile:
     #         writer = csv.writer(csvfile)
     #         writer.writerow(['input', 'output', 'count'])
-    #         # 遍历每个组合并写入
     #         for (input_str, output_str), count in count_cache.items():
     #             writer.writerow([input_str, output_str, count])
     # else:
     #     with open(output_filename, 'a+', newline='') as csvfile:
     #         writer = csv.writer(csvfile)
-    #         # 遍历每个组合并写入
     #         for (input_str, output_str), count in count_cache.items():
     #             writer.writerow([input_str, output_str, count])
-    #
-    # print(f"CSV 文件 '{output_filename}' 已写入")
-
-            # if print_log:
-            #     print("--------------- K = " + str(k_value) + " ---------------")
-            #     print("共有" + str(len(transactions[vxid])) + "条SQL语句")
-            #     print("预测第" + str(i + loop + 1) + "条SQL语句")
-            #     print("输入值", str(transactions[vxid][i + loop-1]))
-            #     print("真值", str(transactions[vxid][i + loop]))
 
 
 
 if __name__=="__main__":
     # 模型参数
-    input_dim       =   2 + 2 * v_size              # 决定了customer/item模型的输入维度
-    output_dim      =   v_size                      # 决定了customer/item模型的输出维度
-    hidden_units    =   32                          # customer/item - LSTM层的单元数
-    hidden_units2    =   32                         # type/table - LSTM层的单元数
-    epoch_num1      =   1000                        # customer/item - 训练轮数
-    epoch_num2      =   1000                        # type/table - 训练轮数
-    batch_size      =   64
+    input_dim       =   2 + 2 * v_size
+    output_dim      =   v_size
+    hidden_units    =   32
+    hidden_units2    =   32
+    epoch_num1      =   1000
+    epoch_num2      =   1000
+    batch_size      =   32
 
-    for k in range(2,3):
+    # train and evaluate LSTM under different k values
+    for k in range(1,6):
         train_with_K(logFile, k, input_dim, output_dim, hidden_units, hidden_units2, batch_size, epoch_num1, epoch_num2)
 

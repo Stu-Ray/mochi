@@ -89,12 +89,11 @@ def chain_waiting_detect_txn(conn, useConfidence):
             lock.release()
 
         try:
-            cursor = conn.cursor()  # 开始事务
-            # 每个事务操作的数据项是从seed开始的20（TXN_SIZE）个连续数据项
+            cursor = conn.cursor()
+            # every transaction start from a seed
             for i in range(0, TXN_SIZE):
                 id = seed % TEST_SIZE + i
                 real_id = seed % DATABASE_SIZE + i
-                # 在读到第ORDER_NUM个数据项时进行预测，因为这里只是模拟链式等待，所以简化了预测和冲突检测的过程
                 if i == ORDER_NUM - 1:
                     time.sleep(0.08)  # prediction  time
                     random.seed(random.random())
@@ -130,7 +129,7 @@ def chain_waiting_detect_txn(conn, useConfidence):
                     statement = "SELECT * FROM test WHERE id = %s"
                     cursor.execute(statement, (real_id,))
                     time.sleep(0.01)
-            # 提交事务
+            # commit transaction
             if seed in waited_chain:
                 to_wake_txn.append(waited_chain[seed])
                 if waited_chain[seed] in waiting_chain:
@@ -141,7 +140,7 @@ def chain_waiting_detect_txn(conn, useConfidence):
             count_commit = count_commit + 1
             conn.commit()
         except (Exception, psycopg2.DatabaseError) as error:
-            # 回滚事务
+            # roll back
             if seed in waited_chain:
                 to_wake_txn.append(waited_chain[seed])
                 if waited_chain[seed] in waiting_chain:
@@ -153,7 +152,7 @@ def chain_waiting_detect_txn(conn, useConfidence):
             count_rollback = count_rollback + 1
         finally:
             cursor.close()
-    conn.close()  # 关闭数据库连接
+    conn.close()
 
 
 # Without chain waiting detection simulation
@@ -178,12 +177,10 @@ def non_chain_waiting_detect_txn(conn):
             lock.release()
 
         try:
-            cursor = conn.cursor()  # 开始事务
-            # 每个事务操作的数据项是从seed开始的20（TXN_SIZE）个连续数据项
+            cursor = conn.cursor()
             for i in range(0, TXN_SIZE):
                 id = seed % TEST_SIZE + i
                 real_id = seed % DATABASE_SIZE + i
-                # 在读到第ORDER_NUM个数据项时进行预测，因为这里只是模拟链式等待，所以简化了预测和冲突检测的过程
                 if i == ORDER_NUM - 1:
                     time.sleep(0.08)  # prediction  time
                     random.seed(random.random())
@@ -206,8 +203,7 @@ def non_chain_waiting_detect_txn(conn):
                     statement = "SELECT * FROM test WHERE id = %s"
                     cursor.execute(statement, (real_id,))
                     time.sleep(0.01)
-
-            # 提交事务
+            # commit
             if seed in waited_chain:
                 to_wake_txn.append(waited_chain[seed])
                 if waited_chain[seed] in waiting_chain:
@@ -244,12 +240,6 @@ def generate_transactions_with_chainPercentage():
     transaction_level = {}  # concurrent transaction seeds and their levels in the chain
     transaction_seeds = {}  # contrary to the transaction_level
     transaction_confidence = {}  # how confident we are to prediction this transaction (default 0.9)
-
-    # random.seed(random.random())
-    # sample_size = int(THREAD_NUM * 0.25 + random.uniform(-0.05, 0.05) * THREAD_NUM)
-    # candidates = list(range(0, THREAD_NUM, 1))
-    # random.seed(random.random())
-    # selected_indices = random.sample(candidates, sample_size)
 
     # The seed is the first data accessed by the transaction, we use it to represent different transactions in our simulator (similar to a transaction ID)
     # When a seed is set, the working set of the transaction is the consecutive TXN_SIZE data items starting from the seed
@@ -335,7 +325,7 @@ def generate_transactions_with_chainPossibility():
             last_seed = seed
 
 
-# Initialize the wait chains
+# Initialize the waiting chains
 def restore_wait_chains():
     global to_wake_txn
     global waited_chain

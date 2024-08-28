@@ -6,22 +6,19 @@ import pandas as pd
 
 # pre-process dataset and generate usable training and testing data for models
 
-# 显示配置，便于在命令台显示完整结果
 pd.set_option('display.max_columns', 10000)
 pd.set_option('display.width', 1000)
 pd.set_option('display.max_colwidth', 10000)
 
-# 程序可调整的相关参数
-bool_print = False           # 是否在终端print输出具体的事务工作集（预测和实际）
+bool_print = False           # whether to print logs
 
-# 参数
-logid = 80
+logid = 80  # which file to process
 
 # data item related IDs and records
-data_total = 1      # 出现过的数据项数量总和
-data_dict = {}      # 数据项及其对应编号
-table_total = 1     # 出现过的数据表数量总和
-table_id = {}       # 数据表及其对应编号
+data_total = 1
+data_dict = {}
+table_total = 1
+table_id = {}
 
 # write some training or testing data into a csv file
 def write_data_to_csv(X_data, y_data, filename='./Output/Text/Data_output.csv'):
@@ -55,15 +52,14 @@ def read_csv_all_data(logFile):
     dataset.drop(['UNAME', 'DBNAME', 'PID', 'HOSTPORT', 'SID', 'SLNUM', 'TIME2', 'XID', 'STATE', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',  'AMAME', 'BACKEND'], axis=1, inplace=True)
 
     # new column to be added
-    sql_Type = []           # 操作类型
-    sql_statement = []      # WHERE子句（即查询条件，若全局查询则默认为“ALL”）
-    sql_data = []           # 访问的数据项编号
-    sql_Table = []          # 访问的数据表
+    sql_Type = []
+    sql_statement = []
+    sql_data = []
+    sql_Table = []
+    sql_TypeId = []
+    sql_TableId = []
 
-    sql_TypeId = []         # 操作类型编号
-    sql_TableId = []        # 访问的数据表编号
-
-    sql_KeyValues = {}      # 查询条件键值对
+    sql_KeyValues = {}
     sql_KeyValues["w_id"] = []
     sql_KeyValues["d_id"] = []
     sql_KeyValues["c_id"] = []
@@ -80,13 +76,12 @@ def read_csv_all_data(logFile):
 
     # get new column data
     for index, row in dataset.iterrows():
-        query_type = ""         # 操作类型
-        table = ""              # 操作表
-        query_condition = ""    # 查询条件
-        data_index = -1         # 访问的数据项编号
-        statement = ""          # SQL语句内容
+        query_type = ""
+        table = ""
+        query_condition = ""
+        data_index = -1
+        statement = ""
 
-        # 键值对
         type_id     =   0
         table_id    =   0
         w_id = 0
@@ -103,7 +98,6 @@ def read_csv_all_data(logFile):
         # errors regarded as rollbacks(aborts)
         if row["VXID"] in aborted_txns:
             # dataset.drop(index, axis=0, inplace=True)
-            # 添加获取到的信息到新表中
             query_type = "ROLLBACK"
             sql_statement.append(query_condition)
             sql_Type.append(query_type)
@@ -118,17 +112,15 @@ def read_csv_all_data(logFile):
             sql_KeyValues["other"].append(other)
             continue
 
-        # 获取日志信息中的SQL语句（如果没有日志信息则直接删掉这一行）
         if str(row["LOG"]).find(":") != -1:
             statement = str(row["LOG"])[(str(row["LOG"]).index(":")+2):].strip('/"').rstrip(';').rstrip()
         else:
             dataset.drop(index, axis=0, inplace=True)
             continue
 
-        # 获取其他属性：操作类型、操作表、Where子句
         statement = re.sub(r'\s+', ' ', statement)
 
-        # SELECT 语句分析
+        # SELECT
         if statement.upper().startswith("SELECT"):
             query_type = "SELECT"
             if(statement.upper().find("FROM") != -1):
@@ -140,27 +132,27 @@ def read_csv_all_data(logFile):
                     query_condition = query_condition[:  query_condition.index("FOR UPDATE")].strip()
 
             else:
-                query_condition = "ALL"   # 如果没有查询条件，说明是全局查询，默认值为ALL
+                query_condition = "ALL"
 
-        # UPDATE 语句分析
+        # UPDATE
         elif statement.upper().startswith("UPDATE"):
             query_type = "UPDATE"
             table = re.search(r'update (\w+) set', statement, re.I).group(1).strip()
             if statement.find("WHERE") != -1:
                 query_condition = statement[statement.index("WHERE") + 6:].strip()
             else:
-                query_condition = "ALL"     # 如果没有查询条件，说明是全局查询，默认值为ALL
+                query_condition = "ALL"
 
-        # DELETE 语句分析
+        # DELETE
         elif statement.upper().startswith("DELETE"):
             query_type = "DELETE"
             table = re.search(r'delete from (\w+) where', statement, re.I).group(1).strip()
             if statement.find("WHERE") != -1:
                 query_condition = statement[statement.index("WHERE") + 6:].lstrip()
             else:
-                query_condition = "ALL"    # 如果没有查询条件，说明是全局查询，默认值为ALL
+                query_condition = "ALL"
 
-        # INSERT 语句分析
+        # INSERT
         elif statement.upper().startswith("INSERT"):
             query_type = "INSERT"
             insert = re.sub('\"', '', re.search(r'INTO (.*?) VALUES', statement, re.I).group(1)).strip()
@@ -173,35 +165,32 @@ def read_csv_all_data(logFile):
                 insert_value = re.search(r"VALUES\((.*?)\)", statement).group(1).strip()
             query_condition = insert_key + "=" + insert_value
 
-        # BEGIN 分析
+        # BEGIN
         elif (statement.upper().startswith("BEGIN")) or (statement.upper().startswith("START")):
             query_type = "BEGIN"
-        # COMMIT 分析
+        # COMMIT
         elif (statement.upper().startswith("END")) or (statement.upper().startswith("COMMIT")):
             query_type = "COMMIT"
-        # ROLLBACK 分析
+        # ROLLBACK
         elif (statement.upper().startswith("ROLLBACK")) or (statement.upper().startswith("ABORT")):
             query_type = "ROLLBACK"
-        # 其他
+        # OTHERS
         else:
             query_type = "OTHERS"
 
-        # 若DETAIL列（参数列）不为空，则SQL语句中必包含形如[$i]的参数，利用正则表达式匹配，将参数对应的值替换到SQL语句中
         if (row["DETAIL"] is not np.nan) and (row["DETAIL"] != "")  and (row["DETAIL"].split() != ""):
-            temp_parm = row["DETAIL"].strip("\"")[row["DETAIL"].index(":", 7) + 2:].strip().strip(';').strip()  # 获取DETAIL列
-            # 将temp_parm字符串转换为字典
+            temp_parm = row["DETAIL"].strip("\"")[row["DETAIL"].index(":", 7) + 2:].strip().strip(';').strip()
             temp_parm_dict = {}
             for pair in temp_parm.split(","):
                 key, value = pair.strip().split("=")
                 temp_parm_dict[key.strip()] = value.strip()
 
-            # 替换query_condition中的参数值
             for key, value in temp_parm_dict.items():
                 query_condition = query_condition.replace(key, value)
         else:
             temp_parm = ""
 
-        # 获取数据项编号
+        # get data item ID
         if (query_condition not in data_dict) and query_condition != "":
             data_dict[query_condition] = data_total
             data_index = data_total
@@ -209,11 +198,11 @@ def read_csv_all_data(logFile):
         elif query_condition in data_dict:
             data_index = data_dict[query_condition]
         elif query_condition == "ALL":
-            data_index = 0      # 数据项编号为0表示全局访问（即没有查询条件，访问整个表的数据）
+            data_index = 0      # 0 for all the data
         else:
-            data_index = -1     # 数据项编号为-1表示没有访问数据项
+            data_index = -1     # -1 for no data
 
-        # 获取table编号
+        # get table ID
         if table == "":
             table_id = 0
         elif table in table_id_dict:
@@ -223,7 +212,7 @@ def read_csv_all_data(logFile):
             table_id = table_total_num
             table_id_dict[table] = table_id
 
-        # 获取Type编号
+        # get type ID
         if query_type == "SELECT":
             type_id = 1
         elif query_type == "UPDATE":
@@ -237,7 +226,6 @@ def read_csv_all_data(logFile):
         else:
             type_id = 0
 
-        # 获取查询条件中的键值对
         keyValueStrs = query_condition.split("AND")
         for keyValueStr in keyValueStrs:
             if(keyValueStr.find("=") != -1):
@@ -261,7 +249,6 @@ def read_csv_all_data(logFile):
                         else:
                             other = other + " AND " + query_condition
 
-        # 添加获取到的信息到新表中
         sql_statement.append(query_condition)
         sql_data.append(data_index)
         sql_Type.append(query_type)
@@ -274,7 +261,6 @@ def read_csv_all_data(logFile):
         sql_KeyValues["i_id"].append(i_id)
         sql_KeyValues["other"].append(other)
 
-    # 添加新列，删除LOG等列以及部分行数据
     dataset["TYPE"] = sql_Type
     dataset["TABLE"] = sql_Table
     dataset["STATEMENT"] = sql_statement
@@ -355,54 +341,51 @@ def get_sentences(logFile, onlySQL=False): # onlySQL option removes statements s
 
         # get other data
         statement = re.sub(r'\s+', ' ', statement)
-        # SELECT 语句分析
+        # SELECT
         if statement.upper().startswith("SELECT"):
             query_type = "SELECT"
             if statement.find("FOR UPDATE") != -1:
                 statement = statement[:  statement.index("FOR UPDATE")].strip()
 
-        # UPDATE 语句分析
+        # UPDATE
         elif statement.upper().startswith("UPDATE"):
             query_type = "UPDATE"
 
-        # DELETE 语句分析
+        # DELETE
         elif statement.upper().startswith("DELETE"):
             query_type = "DELETE"
 
-        # INSERT 语句分析
+        # INSERT
         elif statement.upper().startswith("INSERT"):
             query_type = "INSERT"
 
-        # BEGIN 分析
+        # BEGIN
         elif (statement.upper().startswith("BEGIN")) or (statement.upper().startswith("START")):
             query_type = "BEGIN"
 
-        # COMMIT 分析
+        # COMMIT
         elif (statement.upper().startswith("END")) or (statement.upper().startswith("COMMIT")):
             query_type = "COMMIT"
 
-        # ROLLBACK 分析
+        # ROLLBACK
         elif (statement.upper().startswith("ROLLBACK")) or (statement.upper().startswith("ABORT")):
             query_type = "ROLLBACK"
 
-        # 其他
+        # OTHERS
         else:
             query_type = "OTHERS"
             if (onlySQL):
                 dataset.drop(index, axis=0, inplace=True)
                 continue
 
-        # 若DETAIL列（参数列）不为空，则SQL语句中必包含形如[$i]的参数，利用正则表达式匹配，将参数对应的值替换到SQL语句中
         if (row["DETAIL"] is not np.nan) and (row["DETAIL"] != "") and (row["DETAIL"].split() != ""):
             temp_parm = row["DETAIL"].strip("\"")[row["DETAIL"].index(":", 7) + 2:].strip().strip(
-                ';').strip()  # 获取DETAIL列
-            # 将temp_parm字符串转换为字典
+                ';').strip()
             temp_parm_dict = {}
             for pair in temp_parm.split(","):
                 key, value = pair.strip().split("=")
                 temp_parm_dict[key.strip()] = value.strip()
 
-            # 替换query_condition中的参数值
             for key, value in temp_parm_dict.items():
                 statement = statement.replace(key, value)
         else:
@@ -530,13 +513,13 @@ if __name__ == '__main__':
 
     # --------------------- generate cache file ---------------------
 
-    # X_data, y_data = get_csv_data("./Dataset/DATA-LOG-80.csv") # 获取真实的输入输出值（可缓存）
+    # X_data, y_data = get_csv_data("./Dataset/DATA-LOG-80.csv")
     # write_data_to_csv(X_data, y_data)
 
     # for logid in [20, 40, 60, 80]:
     #     filename = './Output/Text/Data_' + str(logid) + '_output.csv'
     #     log_file = "./Dataset/DATA-LOG-" + str(logid) + ".csv"
-    #     X_data, y_data = get_csv_data(log_file) # 获取真实的输入输出值（可缓存）
+    #     X_data, y_data = get_csv_data(log_file)
     #     write_data_to_csv(X_data, y_data, filename)
 
         # dataset = read_csv_all_data(log_file)
@@ -544,8 +527,6 @@ if __name__ == '__main__':
         # new_LogFile = log_file.rstrip(".csv") + "_new.csv"
         # dataset.to_csv(new_LogFile)
         # print(dataset.head(20))
-
-        # 获取词向量的训练文件
         # get_transaction_info(log_file)
 
         # model_name = "./Model/Transformer/TRANSFORMER_TEST_20_2_5000.keras"
