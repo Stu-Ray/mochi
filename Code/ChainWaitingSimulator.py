@@ -5,53 +5,60 @@ import time
 import string
 import csv
 
+# Simulate a chain-waiting situation for chain-splitting ablation experiments
+
 # Configurations for PostgreSQL
-myhost = "127.0.0.1"  # host
-mydb = "postgres"  # database name
-myrole = "Administrator"  # user role name
-mypwd = ""  # password
+myhost = "127.0.0.1"        # host
+mydb = "postgres"           # database name
+myrole = "Administrator"    # user role name
+mypwd = ""                  # password
+
+max_k = 5  # how many repeatitive tests are needed to produce an average output data
+file_name = './Output/chain_waiting_simulation.csv'  # where to put the output data
+
+TIMEOUT_TIME = 0.06     # seconds, the time to be regarded as timeout
+DATABASE_SIZE = 20000   # how many data items inserted into the database
+TEST_SIZE = 10000       # how many data items are used in testing
+TXN_SIZE = 20           # how many operations inside each transaction
+ORDER_NUM = 2           # the k value of the prediction model (just for simulation, not so useful)
+
+# ---------------------- no need to change ---------------------------
 
 # Configs for chain waiting simulator
 bool_chain = False          # whether to use chain waiting detection or not
 bool_confidence = False
 
-# random_txn_factor   =   0.5
+TXN_NUM = 400       # how many transactions in total
+THREAD_NUM = 40     # how many threads(transactions, one thread for one concurrent transaction)
+
 chain_percentage        = 0.2   # the percentage of transactions to form a long chain
 chain_possibility       = 0.2   # the possibility to form a chain
 false_chain_possibility = 0.2   # the possibility for a chain to be a false positive chain
 
-TIMEOUT_TIME = 0.06  # seconds
-DATABASE_SIZE = 20000  # how many data items inserted into the database
-TEST_SIZE = 10000  # how many data items are used in testing
-TXN_SIZE = 20  # how many operations inside each transaction
-TXN_NUM = 400  # how many transactions in total
-THREAD_NUM = 40  # how many threads(transactions, one thread for one concurrent transaction)
-ORDER_NUM = 2  # the k value of the prediction model (just for simulation, not so useful)
-
 # Others
-count_commit = 0  # count the number of successfully committed transactions
+count_commit = 0    # count the number of successfully committed transactions
 count_rollback = 0  # count the number of unsuccessfully committed transactions (due to update error or something else)
-count_timeout = 0  # count the number of timeout transactions (not counted into the previous two)
+count_timeout = 0   # count the number of timeout transactions (not counted into the previous two)
 execute_time = 0.0  # total time for all the threads to execute given transactions
 
-lock = threading.Lock()
 current_txn_num = 0
+lock = threading.Lock()         # global lock for current_txn_num
 
-transaction_level = {}  # concurrent transaction seeds and their levels in the chain
-transaction_seeds = {}  # contrary to the transaction_level
-transaction_confidence = {}  # how confident we are to prediction this transaction (default 0.9)
+transaction_level = {}          # concurrent transaction seeds and their levels in the chain
+transaction_seeds = {}          # contrary to the transaction_level
+transaction_confidence = {}     # how confident we are to prediction this transaction (default 0.9)
+to_wake_txn = []                # all the transactions to be waken
+                                # A transaction is removed from waiting_txn only under 2 circumstances:
+                                #    1. The transaction has been waiting for too long and reached the timeout limit (50 milliseconds in this simulator)
+                                #    2. It is added into to_wake_txn list, which means it no longer needs waiting
 
-to_wake_txn = []  # all the transactions to be waken
-# A transaction is removed from waiting_txn only under 2 circumstances:
-#    1. The transaction has been waiting for too long and reached the timeout limit (50 milliseconds in this simulator)
-#    2. It is added into to_wake_txn list, which means it no longer needs waiting
+waiting_chain = {}              # The waiting chain (only records transactions that are waiting for other transactions)
+waited_chain = {}               # The waited chain (only records transactions that are being waited by other transactions)
 
-waiting_chain = {}  # The waiting chain (only records transactions that are waiting for other transactions)
-waited_chain = {}  # The waited chain (only records transactions that are being waited by other transactions)
+backup_waiting_chain = {}       # The backup of waiting chain
+backup_waited_chain = {}        # The backup of waited chain
 
-backup_waiting_chain = {}  # The backup of waiting chain
-backup_waited_chain = {}  # The backup of waited chain
-
+# ---------------------- no need to change ---------------------------
 
 def generate_random_string(length=10):
     # string.ascii_letters
@@ -414,11 +421,9 @@ def insert_values():
 
 # Conduct tests for experiments and save the output in the given file
 if __name__ == '__main__':
-    # insert_values()
-    max_k = 5  # how many repeatitive tests are needed to produce an average output data
-    file_name = './Output/chain_waiting_simulation.csv'  # where to put the output data
+    # insert_values() # to insert data into the test table
     # start testing
-    for TXN_NUM in [400]:
+    for TXN_NUM in [100, 200, 300, 400]:
         for chain_possibility in [0.2, 0.8]:
             for false_chain_possibility in [0.2, 0.8]:
                 for THREAD_NUM in [5, 10, 15, 20, 25, 30, 35, 40]:
