@@ -477,9 +477,6 @@ if __name__ == '__main__':
                                     THREAD_NUM) + ", chain_possibility = " + str(chain_possibility) + ", chain_percentage = " + str(
                                     chain_percentage) + ", false_chain = " + str(false_chain_possibility) + ", bool_chain = " + str(
                                     bool_chain) + ", bool_confidence = " + str(bool_confidence) + "----------------------")
-                                count_timeout = 0
-                                count_commit = 0
-                                count_rollback = 0
                                 restore_wait_chains()  # initialize the waiting chains
                                 concurrent_transactions()  # start concurrent execution
                                 avg_timeout += count_timeout
