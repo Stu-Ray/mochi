@@ -1,5 +1,5 @@
-# Mogi
-Codes for artical: Mogi: An adaptive semi-deterministic concurrency control
+# Mochi
+Codes for artical: Predictive and Semi-deterministic Concurrency Control for High-performance OLTP Databases
 
 There are two parts in this repository:
 
