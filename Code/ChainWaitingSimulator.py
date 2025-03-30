@@ -58,7 +58,7 @@ waited_chain = {}               # The waited chain (only records transactions th
 backup_waiting_chain = {}       # The backup of waiting chain
 backup_waited_chain = {}        # The backup of waited chain
 
-# ---------------------- no need to change ---------------------------
+# --------------------------------------------------------------------
 
 def generate_random_string(length=10):
     # string.ascii_letters
