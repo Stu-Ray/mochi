@@ -1,11 +1,24 @@
-# Mochi
-This repository holds codes for the artical: Predictive and Semi-deterministic Concurrency Control for High-performance OLTP Databases.
+# Mochi: Predictive and Semi-deterministic Concurrency Control for High-performance OLTP Databases  (VLDB 2026)
 
-We propose a semi-deterministic concurrency control method, Mochi, to proactively predict, detect and avoid potential conflicts between concurrent transactions during execution.
+This repository contains the scripts and experimental workload for the article:
 
-There are two parts in this repository:
+**Predictive and Semi-deterministic Concurrency Control for High-performance OLTP Databases**
 
-1. Code: the Python codes for analyzing data or training models.
-2. TPCC: the workload of our experiments, written in Java.
+## Overview
 
-Experiments are performed on PostgreSQL 13.9.
+![image-20250403000451613](https://my-typora-image-host.oss-cn-hangzhou.aliyuncs.com//img/image-20250403000451613.png) 
+
+We propose **Mochi**, a semi-deterministic concurrency control method that proactively predicts, detects, and avoids potential conflicts among concurrent transactions during execution. This repository provides the codebase used to implement, analyze, and evaluate the proposed approach. 
+
+## Repository Structure
+
+- **Code/**  
+  Contains Python scripts for data analysis and model training related to conflict prediction and scheduling.
+  
+- **TPCC/**  
+  Contains the Java implementation of the TPC-C benchmark workload used in our experiments.
+
+## Experimental Environment
+
+All experiments were conducted on **PostgreSQL 13.9** with modified concurrency control mechanisms integrated to support Mochi in **Ubuntu 20.04**. 
+
