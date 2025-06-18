@@ -1,4 +1,4 @@
-# Mochi: Predictive and Semi-deterministic Concurrency Control for High-performance OLTP Databases  (VLDB 2026)
+# Mochi: Predictive and Semi-deterministic Concurrency Control for High-performance OLTP Databases
 
 This repository contains the scripts and experimental workload for the article:
 
