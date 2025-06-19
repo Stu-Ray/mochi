@@ -15,8 +15,8 @@ We propose **Mochi**, a semi-deterministic concurrency control method that proac
 - **Code/**  
   Contains Python scripts for data analysis and model training related to conflict prediction and scheduling.
   
-- **TPCC/**  
-  Contains the Java implementation of the TPC-C benchmark workload used in our experiments.
+- **Workloads/**  
+  Contains the Java implementation of the YCSB and TPC-C benchmark workload used in our experiments.
 
 ## Experimental Environment
 
