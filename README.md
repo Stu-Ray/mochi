@@ -1,8 +1,8 @@
 # **Mochi - Github Readme**
 
-This repository contains the scripts and experimental workload for the article:
+This repository contains the scripts and experimental workload for the article: **Predictive and Semi-deterministic Concurrency Control for High-performance OLTP Databases**
 
-**Predictive and Semi-deterministic Concurrency Control for High-performance OLTP Databases**
+This is based on our previous work published on ICDM2024: [PC3: Enhancing Concurrency in High-Conflict Transactions with Prior Cascading Control](https://ieeexplore.ieee.org/abstract/document/10884341)
 
 # Project Overview
 
